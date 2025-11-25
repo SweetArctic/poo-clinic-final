@@ -19,5 +19,11 @@ public class AuthController {
         UsuarioDTO creado = usuarioService.registrar(body);
         return ResponseEntity.status(HttpStatus.CREATED).body(creado);
     }
-}
 
+    @PutMapping("/password")
+    public ResponseEntity<Void> actualizarPassword(@RequestParam String username, @RequestParam String nuevaPassword) {
+        boolean ok = usuarioService.actualizarPassword(username, nuevaPassword);
+        if (ok) return ResponseEntity.noContent().build();
+        return ResponseEntity.notFound().build();
+    }
+}
