@@ -1,6 +1,5 @@
 package com.clinica.proyecto.config;
 
-import com.clinica.proyecto.infraestructure.repository.jpa.UsuarioJpaRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -11,6 +10,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import com.clinica.proyecto.infraestructure.repository.jpa.UsuarioJpaRepository;
+
 @Configuration
 public class SecurityConfig {
 
@@ -19,7 +20,7 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/", "/api/auth/**").permitAll()
+                .requestMatchers("/", "/api/auth/**", "/api/dashboard/**").permitAll()
                 .anyRequest().authenticated()
             )
             .httpBasic(Customizer.withDefaults());
@@ -38,4 +39,3 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 }
-
