@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Clínica - Admin</title>
+  <style>
+    body{font-family:system-ui,Arial,sans-serif;margin:0;background:#0f172a;color:#e2e8f0}
+    header{padding:16px;background:#111827;display:flex;justify-content:space-between;align-items:center}
+    main{padding:16px;display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    section{background:#1f2937;border-radius:8px;padding:16px}
+    h2{margin:0 0 8px 0;font-size:18px}
+    label{display:block;margin:8px 0 4px}
+    input,select,button,textarea{width:100%;padding:8px;border-radius:6px;border:1px solid #374151;background:#0b1220;color:#e5e7eb}
+    button{margin-top:8px;background:#2563eb;border:none;cursor:pointer}
+    button:disabled{opacity:.5;cursor:not-allowed}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .ok{color:#22c55e}
+    .err{color:#ef4444}
+    pre{white-space:pre-wrap;background:#0b1220;padding:8px;border-radius:6px}
+    .hidden{display:none}
+  </style>
+</head>
+<body>
+  <header>
+    <div>Dashboard Admin</div>
+    <div id="status">Desconectado</div>
+  </header>
+  <main>
+    <section>
+      <h2>Inicio de sesión</h2>
+      <label>Usuario</label>
+      <input id="username" placeholder="admin" />
+      <label>Contraseña</label>
+      <input id="password" type="password" />
+      <button id="btnLogin">Entrar</button>
+      <div id="loginMsg"></div>
+    </section>
+
+    <section>
+      <h2>Estado</h2>
+      <button id="btnDashboard">Consultar /api/dashboard</button>
+      <pre id="dashboardOut"></pre>
+    </section>
+
+    <section class="hidden" id="doctoresSec">
+      <h2>Registrar doctor</h2>
+      <label>Nombre</label>
+      <input id="docNombre" />
+      <label>Especialidad</label>
+      <input id="docEsp" />
+      <label>Email</label>
+      <input id="docEmail" />
+      <label>Teléfono</label>
+      <input id="docTel" />
+      <button id="btnDocCrear">Crear</button>
+      <pre id="docOut"></pre>
+    </section>
+
+    <section class="hidden" id="pacientesSec">
+      <h2>Registrar paciente</h2>
+      <label>Nombre</label>
+      <input id="pacNombre" />
+      <label>Email</label>
+      <input id="pacEmail" />
+      <label>Teléfono</label>
+      <input id="pacTel" />
+      <label>Fecha Nacimiento (YYYY-MM-DD)</label>
+      <input id="pacFn" />
+      <button id="btnPacCrear">Crear</button>
+      <pre id="pacOut"></pre>
+    </section>
+
+    <section class="hidden" id="citasSec">
+      <h2>Asignar cita</h2>
+      <div class="row">
+        <div>
+          <label>Paciente ID</label>
+          <input id="citaPacId" />
+        </div>
+        <div>
+          <label>Doctor ID</label>
+          <input id="citaDocId" />
+        </div>
+      </div>
+      <label>Fecha y hora (YYYY-MM-DDTHH:mm:ss)</label>
+      <input id="citaFecha" />
+      <label>Motivo</label>
+      <input id="citaMotivo" />
+      <button id="btnCitaCrear">Crear</button>
+      <pre id="citaOut"></pre>
+    </section>
+
+    <section class="hidden" id="estadoCitaSec">
+      <h2>Actualizar estado cita</h2>
+      <div class="row">
+        <div>
+          <label>ID Cita</label>
+          <input id="updCitaId" />
+        </div>
+        <div>
+          <label>Estado</label>
+          <select id="updEstado">
+            <option value="PENDIENTE">PENDIENTE</option>
+            <option value="CONFIRMADA">CONFIRMADA</option>
+            <option value="CANCELADA">CANCELADA</option>
+          </select>
+        </div>
+      </div>
+      <button id="btnEstadoActualizar">Actualizar</button>
+      <pre id="estadoOut"></pre>
+    </section>
+  </main>
+
+  <script>
+    const base = ''
+    let auth = ''
+    const s = (id) => document.getElementById(id)
+    const showSec = (ok) => {
+      s('doctoresSec').classList.toggle('hidden', !ok)
+      s('pacientesSec').classList.toggle('hidden', !ok)
+      s('citasSec').classList.toggle('hidden', !ok)
+      s('estadoCitaSec').classList.toggle('hidden', !ok)
+      s('status').textContent = ok ? 'Conectado' : 'Desconectado'
+    }
+    const req = async (path, options={}) => {
+      const opts = Object.assign({
+        headers: { 'Content-Type':'application/json', 'Authorization': auth }
+      }, options)
+      const res = await fetch(base + path, opts)
+      const text = await res.text()
+      let body
+      try { body = JSON.parse(text) } catch { body = text }
+      return { ok: res.ok, status: res.status, body }
+    }
+    s('btnLogin').onclick = async () => {
+      const u = s('username').value.trim()
+      const p = s('password').value
+      auth = 'Basic ' + btoa(u + ':' + p)
+      const r = await req('/api/dashboard/doctores', { method:'GET' })
+      if (r.ok) { s('loginMsg').innerHTML = '<span class="ok">Acceso concedido</span>'; showSec(true) }
+      else { s('loginMsg').innerHTML = '<span class="err">Acceso denegado</span>'; showSec(false) }
+    }
+    s('btnDashboard').onclick = async () => {
+      const r = await req('/api/dashboard', { method:'GET' })
+      s('dashboardOut').textContent = typeof r.body==='string' ? r.body : JSON.stringify(r.body, null, 2)
+    }
+    s('btnDocCrear').onclick = async () => {
+      const body = { nombre:s('docNombre').value, especialidad:s('docEsp').value, email:s('docEmail').value, telefono:s('docTel').value }
+      const r = await req('/api/dashboard/doctores', { method:'POST', body: JSON.stringify(body) })
+      s('docOut').textContent = typeof r.body==='string' ? r.body : JSON.stringify(r.body, null, 2)
+    }
+    s('btnPacCrear').onclick = async () => {
+      const body = { nombre:s('pacNombre').value, email:s('pacEmail').value, telefono:s('pacTel').value, fechaNacimiento:s('pacFn').value }
+      const r = await req('/api/dashboard/pacientes', { method:'POST', body: JSON.stringify(body) })
+      s('pacOut').textContent = typeof r.body==='string' ? r.body : JSON.stringify(r.body, null, 2)
+    }
+    s('btnCitaCrear').onclick = async () => {
+      const body = { pacienteId: Number(s('citaPacId').value), doctorId: Number(s('citaDocId').value), fechaHora:s('citaFecha').value, motivo:s('citaMotivo').value }
+      const r = await req('/api/dashboard/citas', { method:'POST', body: JSON.stringify(body) })
+      s('citaOut').textContent = typeof r.body==='string' ? r.body : JSON.stringify(r.body, null, 2)
+    }
+    s('btnEstadoActualizar').onclick = async () => {
+      const id = s('updCitaId').value
+      const estado = s('updEstado').value
+      const r = await req('/api/dashboard/citas/' + id + '/estado?estado=' + encodeURIComponent(estado), { method:'PUT' })
+      s('estadoOut').textContent = typeof r.body==='string' ? r.body : JSON.stringify(r.body, null, 2)
+    }
+  </script>
+  </body>
+  </html>
+
