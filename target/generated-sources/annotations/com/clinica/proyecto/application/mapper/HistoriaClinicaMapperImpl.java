@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-11-25T01:34:21-0500",
+    date = "2025-11-25T01:53:34-0500",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 21.0.8 (Oracle Corporation)"
 )
 @Component
@@ -30,9 +30,17 @@ public class HistoriaClinicaMapperImpl implements HistoriaClinicaMapper {
 
         HistoriaClinicaDTO historiaClinicaDTO = new HistoriaClinicaDTO();
 
-        historiaClinicaDTO.setPacienteId( historiaClinicaPacienteId( historiaClinica ) );
-        historiaClinicaDTO.setId( historiaClinica.getId() );
-        historiaClinicaDTO.setTratamientos( tratamientoListToTratamientoDTOList( historiaClinica.getTratamientos() ) );
+        Long id = historiaClinicaPacienteId( historiaClinica );
+        if ( id != null ) {
+            historiaClinicaDTO.setPacienteId( id );
+        }
+        if ( historiaClinica.getId() != null ) {
+            historiaClinicaDTO.setId( historiaClinica.getId() );
+        }
+        List<TratamientoDTO> list = tratamientoListToTratamientoDTOList( historiaClinica.getTratamientos() );
+        if ( list != null ) {
+            historiaClinicaDTO.setTratamientos( list );
+        }
 
         return historiaClinicaDTO;
     }
@@ -45,9 +53,16 @@ public class HistoriaClinicaMapperImpl implements HistoriaClinicaMapper {
 
         HistoriaClinica historiaClinica = new HistoriaClinica();
 
-        historiaClinica.setPaciente( historiaClinicaDTOToPaciente( historiaClinicaDTO ) );
-        historiaClinica.setId( historiaClinicaDTO.getId() );
-        historiaClinica.setTratamientos( tratamientoDTOListToTratamientoList( historiaClinicaDTO.getTratamientos() ) );
+        if ( historiaClinicaDTO != null ) {
+            historiaClinica.setPaciente( historiaClinicaDTOToPaciente( historiaClinicaDTO ) );
+        }
+        if ( historiaClinicaDTO.getId() != null ) {
+            historiaClinica.setId( historiaClinicaDTO.getId() );
+        }
+        List<Tratamiento> list = tratamientoDTOListToTratamientoList( historiaClinicaDTO.getTratamientos() );
+        if ( list != null ) {
+            historiaClinica.setTratamientos( list );
+        }
 
         return historiaClinica;
     }
@@ -87,7 +102,9 @@ public class HistoriaClinicaMapperImpl implements HistoriaClinicaMapper {
 
         Paciente paciente = new Paciente();
 
-        paciente.setId( historiaClinicaDTO.getPacienteId() );
+        if ( historiaClinicaDTO.getPacienteId() != null ) {
+            paciente.setId( historiaClinicaDTO.getPacienteId() );
+        }
 
         return paciente;
     }

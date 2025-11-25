@@ -3,10 +3,11 @@ package com.clinica.proyecto.application.mapper;
 import com.clinica.proyecto.application.dto.HistoriaClinicaDTO;
 import com.clinica.proyecto.infraestructure.modelo.HistoriaClinica;
 import org.mapstruct.Mapper;
+import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
-@Mapper(componentModel = "spring", uses = {TratamientoMapper.class})
+@Mapper(componentModel = "spring", uses = {TratamientoMapper.class}, nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
 public interface HistoriaClinicaMapper {
     HistoriaClinicaMapper INSTANCE = Mappers.getMapper(HistoriaClinicaMapper.class);
 
@@ -16,4 +17,3 @@ public interface HistoriaClinicaMapper {
     @Mapping(source = "pacienteId", target = "paciente.id")
     HistoriaClinica toEntity(HistoriaClinicaDTO historiaClinicaDTO);
 }
-
