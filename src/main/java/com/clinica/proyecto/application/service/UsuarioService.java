@@ -31,5 +31,12 @@ public class UsuarioService {
     public Optional<UsuarioDTO> buscarPorUsername(String username) {
         return usuarioRepository.findByUsername(username).map(usuarioMapper::toDTO);
     }
-}
 
+    public boolean actualizarPassword(String username, String nuevaPassword) {
+        return usuarioRepository.findByUsername(username).map(u -> {
+            u.setPassword(passwordEncoder.encode(nuevaPassword));
+            usuarioRepository.save(u);
+            return true;
+        }).orElse(false);
+    }
+}
