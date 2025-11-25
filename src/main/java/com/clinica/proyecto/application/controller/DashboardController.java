@@ -78,15 +78,19 @@ public class DashboardController {
     @GetMapping("/doctores/{id}")
     public ResponseEntity<DoctorDTO> buscarDoctor(@PathVariable Long id) { return doctorService.buscar(id).map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build()); }
     @PostMapping("/doctores")
-    public ResponseEntity<DoctorDTO> crearDoctor(@RequestBody DoctorDTO body) {
-        Doctor creado = doctorService.crearDesdeDTO(body);
-        DoctorDTO dto = new DoctorDTO();
-        dto.setId(creado.getId());
-        dto.setNombre(creado.getNombre());
-        dto.setEspecialidad(creado.getEspecialidad());
-        dto.setEmail(creado.getEmail());
-        dto.setTelefono(creado.getTelefono());
-        return ResponseEntity.created(URI.create("/api/dashboard/doctores/" + dto.getId())).body(dto);
+    public ResponseEntity<?> crearDoctor(@RequestBody DoctorDTO body) {
+        try {
+            Doctor creado = doctorService.crearDesdeDTO(body);
+            DoctorDTO dto = new DoctorDTO();
+            dto.setId(creado.getId());
+            dto.setNombre(creado.getNombre());
+            dto.setEspecialidad(creado.getEspecialidad());
+            dto.setEmail(creado.getEmail());
+            dto.setTelefono(creado.getTelefono());
+            return ResponseEntity.created(URI.create("/api/dashboard/doctores/" + dto.getId())).body(dto);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("error", "doctor_create_failed"));
+        }
     }
 
     @GetMapping("/auth-check")
