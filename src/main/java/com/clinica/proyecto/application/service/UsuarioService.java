@@ -1,0 +1,35 @@
+package com.clinica.proyecto.application.service;
+
+import com.clinica.proyecto.application.dto.UsuarioDTO;
+import com.clinica.proyecto.application.mapper.UsuarioMapper;
+import com.clinica.proyecto.application.repository.IUsuarioRepository;
+import com.clinica.proyecto.infraestructure.modelo.Usuario;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+
+@Service
+public class UsuarioService {
+    @Autowired
+    private IUsuarioRepository usuarioRepository;
+
+    @Autowired
+    private UsuarioMapper usuarioMapper;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    public UsuarioDTO registrar(UsuarioDTO dto) {
+        Usuario usuario = usuarioMapper.toEntity(dto);
+        usuario.setPassword(passwordEncoder.encode(dto.getPassword()));
+        Usuario u = usuarioRepository.save(usuario);
+        return usuarioMapper.toDTO(u);
+    }
+
+    public Optional<UsuarioDTO> buscarPorUsername(String username) {
+        return usuarioRepository.findByUsername(username).map(usuarioMapper::toDTO);
+    }
+}
+
