@@ -57,11 +57,19 @@ public class DashboardController {
                 "/api/dashboard/tratamientos",
                 "/api/dashboard/historias"
         ));
-        info.put("counts", Map.of(
-                "doctores", doctorService.listar().size(),
-                "pacientes", pacienteService.listar().size(),
-                "citas", citaService.listar().size()
-        ));
+        try {
+            info.put("counts", Map.of(
+                    "doctores", doctorService.listar().size(),
+                    "pacientes", pacienteService.listar().size(),
+                    "citas", citaService.listar().size()
+            ));
+        } catch (Exception e) {
+            info.put("counts", Map.of(
+                    "doctores", "unavailable",
+                    "pacientes", "unavailable",
+                    "citas", "unavailable"
+            ));
+        }
         return ResponseEntity.ok(info);
     }
 
