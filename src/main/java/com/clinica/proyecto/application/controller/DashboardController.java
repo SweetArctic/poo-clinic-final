@@ -80,6 +80,11 @@ public class DashboardController {
         dto.setTelefono(creado.getTelefono());
         return ResponseEntity.created(URI.create("/api/dashboard/doctores/" + dto.getId())).body(dto);
     }
+
+    @GetMapping("/auth-check")
+    public ResponseEntity<Map<String, String>> authCheck() {
+        return ResponseEntity.ok(Map.of("status", "authenticated"));
+    }
     @PutMapping("/doctores/{id}")
     public ResponseEntity<DoctorDTO> actualizarDoctor(@PathVariable Long id, @RequestBody DoctorDTO body) {
         Optional<Doctor> act = doctorService.actualizarDesdeDTO(id, body);

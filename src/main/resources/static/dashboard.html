@@ -137,7 +137,7 @@
       const u = s('username').value.trim()
       const p = s('password').value
       auth = 'Basic ' + btoa(u + ':' + p)
-      const r = await req('/api/dashboard/doctores', { method:'GET' })
+      const r = await req('/api/dashboard/auth-check', { method:'GET' })
       if (r.ok) { s('loginMsg').innerHTML = '<span class="ok">Acceso concedido</span>'; showSec(true) }
       else { s('loginMsg').innerHTML = '<span class="err">Acceso denegado</span>'; showSec(false) }
     }
@@ -169,4 +169,3 @@
   </script>
   </body>
   </html>
-
