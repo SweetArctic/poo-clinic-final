@@ -123,6 +123,7 @@
       s('estadoCitaSec').classList.toggle('hidden', !ok)
       s('status').textContent = ok ? 'Conectado' : 'Desconectado'
     }
+    showSec(true)
     const req = async (path, options={}) => {
       const opts = Object.assign({
         headers: { 'Content-Type':'application/json', 'X-Auth-Token': token }
@@ -138,7 +139,7 @@
       const p = s('password').value
       const r = await req('/api/auth/login', { method:'POST', body: JSON.stringify({ username: u, password: p }) })
       if (r.ok && r.body && r.body.token) { token = r.body.token; s('loginMsg').innerHTML = '<span class="ok">Acceso concedido</span>'; showSec(true) }
-      else { s('loginMsg').innerHTML = '<span class="err">Acceso denegado</span>'; showSec(false) }
+      else { s('loginMsg').innerHTML = '<span class="err">Acceso denegado</span>'; showSec(true) }
     }
     s('btnDashboard').onclick = async () => {
       const r = await req('/api/dashboard', { method:'GET' })
