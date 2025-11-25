@@ -26,7 +26,7 @@ public class TokenFilter extends OncePerRequestFilter {
 
         if (dashboardPath) {
             String token = request.getHeader("X-Auth-Token");
-            if (!authTokenService.isValid(token) && (token == null || !"fallback".equals(token))) {
+            if (!authTokenService.isValid(token)) {
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 return;
             }
