@@ -42,8 +42,16 @@ public class UsuarioService {
     }
 
     public boolean validarCredenciales(String username, String password) {
-        return usuarioRepository.findByUsername(username)
-                .map(u -> passwordEncoder.matches(password, u.getPassword()))
-                .orElse(false);
+        try {
+            return usuarioRepository.findByUsername(username)
+                    .map(u -> {
+                        String encoded = u.getPassword();
+                        if (encoded == null || password == null) return false;
+                        return passwordEncoder.matches(password, encoded);
+                    })
+                    .orElse(false);
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

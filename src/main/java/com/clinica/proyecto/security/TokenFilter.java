@@ -21,8 +21,6 @@ public class TokenFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
         String uri = request.getRequestURI();
         boolean dashboardPath = uri.startsWith("/api/dashboard") && !"/api/dashboard".equals(uri);
-        boolean staticPath = uri.endsWith(".html") || uri.endsWith(".css") || uri.endsWith(".js");
-        boolean openPath = uri.equals("/") || uri.startsWith("/api/auth");
 
         if (dashboardPath) {
             String token = request.getHeader("X-Auth-Token");

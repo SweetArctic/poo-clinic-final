@@ -39,9 +39,13 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<Object> login(@RequestBody UsuarioDTO body) {
-        boolean ok = usuarioService.validarCredenciales(body.getUsername(), body.getPassword());
-        if (!ok) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        String token = authTokenService.createToken(body.getUsername());
-        return ResponseEntity.ok(java.util.Map.of("token", token));
+        try {
+            boolean ok = usuarioService.validarCredenciales(body.getUsername(), body.getPassword());
+            if (!ok) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            String token = authTokenService.createToken(body.getUsername());
+            return ResponseEntity.ok(java.util.Map.of("token", token));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
     }
 }
