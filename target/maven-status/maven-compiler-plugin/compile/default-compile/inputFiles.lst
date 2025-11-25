@@ -40,6 +40,7 @@ C:\Users\Excha\Documents\GitHub\poo-clinic-final\src\main\java\com\clinica\proye
 C:\Users\Excha\Documents\GitHub\poo-clinic-final\src\main\java\com\clinica\proyecto\application\dto\HistoriaClinicaDTO.java
 C:\Users\Excha\Documents\GitHub\poo-clinic-final\src\main\java\com\clinica\proyecto\application\controller\HomeController.java
 C:\Users\Excha\Documents\GitHub\poo-clinic-final\src\main\java\com\clinica\proyecto\infraestructure\repository\jpa\CitaJpaRepository.java
+C:\Users\Excha\Documents\GitHub\poo-clinic-final\src\main\java\com\clinica\proyecto\application\controller\HealthController.java
 C:\Users\Excha\Documents\GitHub\poo-clinic-final\src\main\java\com\clinica\proyecto\security\TokenFilter.java
 C:\Users\Excha\Documents\GitHub\poo-clinic-final\src\main\java\com\clinica\proyecto\application\controller\CitaController.java
 C:\Users\Excha\Documents\GitHub\poo-clinic-final\src\main\java\com\clinica\proyecto\infraestructure\repository\jpa\PacienteJpaRepository.java

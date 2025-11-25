@@ -41,6 +41,7 @@ com\clinica\proyecto\application\controller\HomeController.class
 com\clinica\proyecto\application\mapper\PacienteMapper.class
 com\clinica\proyecto\application\service\DoctorService.class
 com\clinica\proyecto\application\controller\DashboardController.class
+com\clinica\proyecto\application\controller\HealthController.class
 com\clinica\proyecto\security\TokenFilter.class
 com\clinica\proyecto\application\mapper\UsuarioMapper.class
 com\clinica\proyecto\infraestructure\repository\PacienteRepository.class
