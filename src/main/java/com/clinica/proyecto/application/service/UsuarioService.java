@@ -1,14 +1,15 @@
 package com.clinica.proyecto.application.service;
 
-import com.clinica.proyecto.application.dto.UsuarioDTO;
-import com.clinica.proyecto.application.mapper.UsuarioMapper;
-import com.clinica.proyecto.application.repository.IUsuarioRepository;
-import com.clinica.proyecto.infraestructure.modelo.Usuario;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import com.clinica.proyecto.application.dto.UsuarioDTO;
+import com.clinica.proyecto.application.mapper.UsuarioMapper;
+import com.clinica.proyecto.application.repository.IUsuarioRepository;
+import com.clinica.proyecto.infraestructure.modelo.Usuario;
 
 @Service
 public class UsuarioService {
@@ -38,5 +39,11 @@ public class UsuarioService {
             usuarioRepository.save(u);
             return true;
         }).orElse(false);
+    }
+
+    public boolean validarCredenciales(String username, String password) {
+        return usuarioRepository.findByUsername(username)
+                .map(u -> passwordEncoder.matches(password, u.getPassword()))
+                .orElse(false);
     }
 }

@@ -114,7 +114,7 @@
 
   <script>
     const base = ''
-    let auth = ''
+    let token = ''
     const s = (id) => document.getElementById(id)
     const showSec = (ok) => {
       s('doctoresSec').classList.toggle('hidden', !ok)
@@ -125,7 +125,7 @@
     }
     const req = async (path, options={}) => {
       const opts = Object.assign({
-        headers: { 'Content-Type':'application/json', 'Authorization': auth }
+        headers: { 'Content-Type':'application/json', 'X-Auth-Token': token }
       }, options)
       const res = await fetch(base + path, opts)
       const text = await res.text()
@@ -136,9 +136,8 @@
     s('btnLogin').onclick = async () => {
       const u = s('username').value.trim()
       const p = s('password').value
-      auth = 'Basic ' + btoa(u + ':' + p)
-      const r = await req('/api/dashboard/auth-check', { method:'GET' })
-      if (r.ok) { s('loginMsg').innerHTML = '<span class="ok">Acceso concedido</span>'; showSec(true) }
+      const r = await req('/api/auth/login', { method:'POST', body: JSON.stringify({ username: u, password: p }) })
+      if (r.ok && r.body && r.body.token) { token = r.body.token; s('loginMsg').innerHTML = '<span class="ok">Acceso concedido</span>'; showSec(true) }
       else { s('loginMsg').innerHTML = '<span class="err">Acceso denegado</span>'; showSec(false) }
     }
     s('btnDashboard').onclick = async () => {
