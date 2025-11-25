@@ -37,7 +37,7 @@ public class AuthController {
         return ResponseEntity.notFound().build();
     }
 
-    @PostMapping("/login")
+    @PostMapping(value = "/login")
     public ResponseEntity<Object> login(@RequestBody UsuarioDTO body) {
         try {
             boolean ok = usuarioService.validarCredenciales(body.getUsername(), body.getPassword());

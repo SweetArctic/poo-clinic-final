@@ -1,3 +1,4 @@
+com\clinica\proyecto\config\GlobalExceptionHandler.class
 com\clinica\proyecto\infraestructure\repository\jpa\HistoriaClinicaJpaRepository.class
 com\clinica\proyecto\infraestructure\modelo\enums\RolUsuario.class
 com\clinica\proyecto\infraestructure\modelo\Paciente.class

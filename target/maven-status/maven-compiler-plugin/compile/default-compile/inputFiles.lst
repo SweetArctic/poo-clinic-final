@@ -32,6 +32,7 @@ C:\Users\Excha\Documents\GitHub\poo-clinic-final\src\main\java\com\clinica\proye
 C:\Users\Excha\Documents\GitHub\poo-clinic-final\src\main\java\com\clinica\proyecto\infraestructure\repository\jpa\HistoriaClinicaJpaRepository.java
 C:\Users\Excha\Documents\GitHub\poo-clinic-final\src\main\java\com\clinica\proyecto\infraestructure\modelo\Paciente.java
 C:\Users\Excha\Documents\GitHub\poo-clinic-final\src\main\java\com\clinica\proyecto\infraestructure\repository\CitaRepository.java
+C:\Users\Excha\Documents\GitHub\poo-clinic-final\src\main\java\com\clinica\proyecto\config\GlobalExceptionHandler.java
 C:\Users\Excha\Documents\GitHub\poo-clinic-final\src\main\java\com\clinica\proyecto\application\service\DoctorService.java
 C:\Users\Excha\Documents\GitHub\poo-clinic-final\src\main\java\com\clinica\proyecto\application\service\UsuarioService.java
 C:\Users\Excha\Documents\GitHub\poo-clinic-final\src\main\java\com\clinica\proyecto\infraestructure\modelo\enums\EstadoCita.java
