@@ -2,14 +2,13 @@ package com.clinica.proyecto.application.mapper;
 
 import com.clinica.proyecto.application.dto.UsuarioDTO;
 import com.clinica.proyecto.infraestructure.modelo.Usuario;
-import com.clinica.proyecto.infraestructure.modelo.enums.RolUsuario;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-11-25T00:26:44-0500",
-    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 21.0.8 (Oracle Corporation)"
+    date = "2025-11-25T01:22:54-0500",
+    comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.44.0.v20251118-1623, environment: Java 21.0.9 (Eclipse Adoptium)"
 )
 @Component
 public class UsuarioMapperImpl implements UsuarioMapper {
@@ -43,9 +42,9 @@ public class UsuarioMapperImpl implements UsuarioMapper {
         usuario.setId( usuarioDTO.getId() );
         usuario.setUsername( usuarioDTO.getUsername() );
         usuario.setPassword( usuarioDTO.getPassword() );
-        if ( usuarioDTO.getRol() != null ) {
-            usuario.setRol( Enum.valueOf( RolUsuario.class, usuarioDTO.getRol() ) );
-        }
+
+        usuario.setEnabled( true );
+        usuario.setRol( com.clinica.proyecto.infraestructure.modelo.enums.RolUsuario.valueOf(usuarioDTO.getRol()) );
 
         return usuario;
     }
